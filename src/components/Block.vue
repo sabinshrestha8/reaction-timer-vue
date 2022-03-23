@@ -1,5 +1,5 @@
 <template>
-    <div class="block" v-if="showBlock">
+    <div class="block" v-if="showBlock" @click="stopTimer">
         click me
     </div>
 </template>
@@ -9,7 +9,9 @@ export default {
     props: ["delay"],
     data() {
         return {
-            showBlock: false
+            showBlock: false,
+            timer: null,
+            reactionTime: 0
         }
     },
     // lifecycle hooks functions
@@ -20,6 +22,7 @@ export default {
         timeout & fire the function after the delay time meets */
         setTimeout(() => {
             this.showBlock = true
+            this.startTimer()
             // to know how long we will wait
             console.log(this.delay);
         }, this.delay)
@@ -31,6 +34,18 @@ export default {
     //fires after the component has been unmounted
     unmounted() {
         console.log("unmounted");
+    },
+    methods: {
+        startTimer() {
+            this.timer = setInterval(() => {
+                this.reactionTime += 10
+            }, 10)
+        },
+        stopTimer() {
+            clearInterval(this.timer)
+            console.log(this.reactionTime);
+        }
+
     }
 }
 </script>
